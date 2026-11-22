@@ -86,20 +86,6 @@ void *file_load(const char *path, u32 *size) {
     fclose(f);
     if (size) *size = n;
     return buf;
-}
-	char full[96];
-	snprintf(full, sizeof(full), "nitro:%s", path);
-	FILE *f = fopen(full, "rb");
-	if (!f) return NULL;
-	fseek(f, 0, SEEK_END);
-	long n = ftell(f);
-	fseek(f, 0, SEEK_SET);
-	void *buf = malloc(n + 4);
-	if (buf) fread(buf, 1, n, f);
-	fclose(f);
-	if (size) *size = n;
-	return buf;
-}
 
 // ---------------------------------------------------------------------------
 // save data (FlxSave "WwcdSave" + FunkinSave highscores + options)
