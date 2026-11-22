@@ -181,8 +181,6 @@ static void fatal(const char *msg) {
 }
 
 int main(int argc, char **argv) {
-	defaultExceptionHandler();
-	if (!nitroFSInit(NULL)) fatal("NitroFS init failed.\n  Run the .nds with a loader\n  that supports argv/NitroFS.");
 	fatOk = fatInitDefault();
 	srand(12345);
 
