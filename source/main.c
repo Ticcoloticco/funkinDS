@@ -53,7 +53,40 @@ const char *diff_name(int d) {
 	return n[d < 0 ? 0 : d > 4 ? 4 : d];
 }
 
+void asset_path(const char *path, char *out, size_t outSize) {
+    const char *rel = path ? path : "";
+
+    if (!strncmp(rel, "nitro:", 6))
+        rel += 6;
+    else if (!strncmp(rel, "fat:", 4)) {
+        snprintf(out, outSize, "%s", rel);
+        return;
+    }
+
+    while (*rel == '/' || *rel == '\\')
+        rel++;
+
+    snprintf(out, outSize, "fat:/FunkinDS/nitrofiles/%s", rel);
+}
+
 void *file_load(const char *path, u32 *size) {
+    char full[256];
+    asset_path(path, full, sizeof(full));
+
+    FILE *f = fopen(full, "rb");
+    if (!f) return NULL;
+
+    fseek(f, 0, SEEK_END);
+    long n = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    void *buf = malloc(n + 4);
+    if (buf) fread(buf, 1, n, f);
+
+    fclose(f);
+    if (size) *size = n;
+    return buf;
+}
 	char full[96];
 	snprintf(full, sizeof(full), "nitro:%s", path);
 	FILE *f = fopen(full, "rb");
