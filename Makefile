@@ -81,7 +81,9 @@ clean:
 else
 
 $(OUTPUT).nds	:	$(OUTPUT).elf
+ifneq ($(strip $(NITRODATA)),)
 $(OUTPUT).nds	:	$(shell find $(TOPDIR)/$(NITRODATA))
+endif
 $(OUTPUT).elf	:	$(OFILES)
 
 $(OFILES_SOURCES) : $(HFILES)
