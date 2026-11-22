@@ -86,6 +86,7 @@ void *file_load(const char *path, u32 *size) {
     fclose(f);
     if (size) *size = n;
     return buf;
+} 
 
 // ---------------------------------------------------------------------------
 // save data (FlxSave "WwcdSave" + FunkinSave highscores + options)
